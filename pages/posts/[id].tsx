@@ -3,9 +3,17 @@ import { getAllPostIds, getPostData } from '../../lib/posts'
 import Head from 'next/head'
 import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
-
+import { AppProps } from 'next/app'
 // dynamic routing using [whatever key]
-export default function Post({ postData }) {
+export default function Post({
+	postData,
+}: {
+	postData: {
+		title: string
+		date: string
+		contentHtml: string
+	}
+}) {
 	return (
 		<Layout>
 			<Head>

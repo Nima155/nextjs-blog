@@ -1,4 +1,5 @@
-export default function handler(req, res) {
+import { NextApiRequest, NextApiResponse } from 'next'
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	res.status(200).json({ text: 'Hello' })
 }
 // API route .. server side only and not included in the JS bundle for clients/browsers...

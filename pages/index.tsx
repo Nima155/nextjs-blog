@@ -5,7 +5,15 @@ import { getSortedPostsData } from '../lib/posts'
 import Link from 'next/link'
 import Date from '../components/date'
 
-export default function Home({ allPostsData }) {
+export default function Home({
+	allPostsData,
+}: {
+	allPostsData: {
+		date: string
+		title: string
+		id: string
+	}[]
+}) {
 	// A page is a react component exported from a file in the "pages" directory, "Home" in this case
 	return (
 		<Layout home>
