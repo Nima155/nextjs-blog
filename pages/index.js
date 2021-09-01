@@ -2,10 +2,15 @@ import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { getSortedPostsData } from '../lib/posts'
+import Link from 'next/link'
+import Date from '../components/date'
+
 export default function Home({ allPostsData }) {
 	// A page is a react component exported from a file in the "pages" directory, "Home" in this case
 	return (
 		<Layout home>
+			{/* Adding metadata using Head
+             https://nextjs.org/docs/api-reference/next/head */}
 			<Head>
 				<title>{siteTitle}</title>
 			</Head>
@@ -21,11 +26,13 @@ export default function Home({ allPostsData }) {
 				<ul className={utilStyles.list}>
 					{allPostsData.map(({ id, date, title }) => (
 						<li className={utilStyles.listItem} key={id}>
-							{title}
+							<Link href={`/posts/${id}`}>
+								<a>{title}</a>
+							</Link>
 							<br />
-							{id}
-							<br />
-							{date}
+							<small className={utilStyles.lightText}>
+								<Date dateString={date} />
+							</small>
 						</li>
 					))}
 				</ul>
@@ -89,7 +96,7 @@ Static generation with and without data:
 
 		- getStaticProps only runs on the server-side. It will never run on the 
 		client side. It won't even be included in the JS bundler for the browser.
-		This means that we can write code such as direct database queries without the 
+		This means that we can write code such as direct database queries without them
 		being sent to browsers.
 
 		- Productions vs development:
@@ -99,4 +106,23 @@ Static generation with and without data:
 			- In development, *getStaticProps* runs on every request.
 	
 	 	- *getStaticProps* can only be exported from a page
+*/
+
+/*
+Server Side Rendering:
+	To use SSG, we need to export *getServerSideProps* instead of *getStaticProps* from our page.
+
+	getServerSideProps:
+		- Is called at request time, its parameter "context" contains request specific parameters
+
+		- Should only be when SSR is needed.
+*/
+
+/*
+Client-side rendering:
+	- We can statically generate (pre-render) parts of the page that don't require external data
+	- When the page loads, fetch external data from the client using JS and populate the remaining parts.
+
+	- Checkout *swr* which is used for this purpose and handles caching, revalidation, focus tracking, refetching
+	on interval, and more.
 */
